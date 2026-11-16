@@ -1,8 +1,13 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-# HARDCODED FOR NOW TO BYPASS THE IMPORT ERROR
-DATABASE_URL = "postgresql+psycopg2://postgres:170599@localhost:5432/indianlaw"
+# Read from Render's environment variable, default to localhost for local dev
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:170599@localhost:5432/indianlaw")
+
+# Important for Neon: Replace 'postgresql://' with 'postgresql+psycopg2://' if needed
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
