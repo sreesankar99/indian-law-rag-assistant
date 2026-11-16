@@ -50,6 +50,10 @@ def ingest_bns_data():
             if existing:
                 print(f"Skipping BNS Section {section_no} (Already in DB)")
                 continue
+
+            title = row.get("section_title", "Unknown Title")
+            text = row.get("text", "")
+            chapter = row.get("chapter_title", "")
             
             print(f"Processing BNS Section {section_no}: {title[:50]}...")
             
