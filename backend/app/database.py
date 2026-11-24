@@ -1,14 +1,18 @@
 import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Read the URL from the environment variable
+# 1. Load the .env file for local development
+load_dotenv()
+
+# 2. Read the URL from the environment variables (Render or .env)
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL is missing from environment variables!")
 
-# Neon gives URLs starting with "postgresql://", but SQLAlchemy needs "postgresql+psycopg2://"
+# 3. Fix the driver prefix for Neon
 if DATABASE_URL.startswith("postgresql://"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
 
