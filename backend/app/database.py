@@ -2,10 +2,13 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Read from Render's environment variable, default to localhost for local dev
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:170599@localhost:5432/indianlaw")
+# Read the URL from the environment variable
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Important for Neon: Replace 'postgresql://' with 'postgresql+psycopg2://' if needed
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is missing from environment variables!")
+
+# Neon gives URLs starting with "postgresql://", but SQLAlchemy needs "postgresql+psycopg2://"
 if DATABASE_URL.startswith("postgresql://"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
 
