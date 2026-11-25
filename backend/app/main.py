@@ -7,11 +7,18 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Indian Law RAG API")
 
-# Allow all origins for development (Swagger, Frontend, etc.)
+from fastapi.middleware.cors import CORSMiddleware
+# Explicitly allow your Vercel frontend and localhost
+origins = [
+    "https://indian-law-rag-assistant-ftsi.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace "*" with your frontend URL
-    allow_credentials=False,
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
