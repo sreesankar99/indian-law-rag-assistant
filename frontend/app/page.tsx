@@ -70,7 +70,7 @@ export default function Home() {
 
     try {
       // The backend now handles both direct lookups and AI search in one endpoint
-      const res = await fetch("http://localhost:8000/api/ask", {
+      const res = await fetch("https://indian-law-rag-assistant.onrender.com/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query, language }),
